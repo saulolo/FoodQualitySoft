@@ -38,4 +38,7 @@ public class Producto implements Serializable {
     @JoinColumn(name = "producto_empresa_id", nullable = false)
     private Empresa empresa;
 
+
+    //Falta las otras entidades
+
 }
