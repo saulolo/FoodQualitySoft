@@ -60,6 +60,4 @@ public class Operario implements Serializable {
     private Inventario inventario;
 
 
-    //NORMALIZAR ESTA TABLA Y LA DE LIDERES POR UNA QUE DIGA EMPLEADOS
-
 }
