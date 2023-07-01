@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class EmpresaService {
 
-    EmpresaRepository empresaRepository;
+    private final EmpresaRepository empresaRepository;
 
 
     /* --VER TODAS LAS EMPRESAS-- */

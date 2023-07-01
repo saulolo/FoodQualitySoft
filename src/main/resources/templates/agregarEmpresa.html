@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Agregar nueva empresa</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+        a{
+            color:white;
+        }
+
+        a:hover {
+            color:black;
+            text-decoration:none;
+        }
+    </style>
+</head>
+
+
+<body>
+<div class="container">
+  <h1>Agregue aqui los datos de Empresas</h1>
+  <br>
+
+  <!--Creo el formulario para llenar los datos de la empresa y guardarlo en el obejeto: emp-->
+  <form th:action="@{/guardarEmpresa}" th:object="${emp}" method="post">
+    <!--Campo para Nit-->
+    <div class="row">
+      <!--Voy a suponer que mi pag de internet esta dividida en 12 columnasy asi digo que el nombre
+      ocupe 3 colum, y el resto las restantes-->
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="nit">Nit o Rut de la Empresa:</label>
+        <div class="col-md-6">
+          <input type="text" th:field="*{Nit}" class="form-control" id="nit" required="required">
+        </div>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="nombre">Nombre o Razon Social:</label>
+        <div class="col-md-6">
+          <input type="text" th:field="*{nombreEmpresa}" class="form-control" id="nombre" required="required">
+        </div>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="direccion">Dirección:</label>
+        <div class="col-md-6">
+          <input type="text" th:field="*{direccion}" class="form-control" id="direccion" required="required">
+        </div>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="telefono">Telefono:</label>
+        <div class="col-md-6">
+          <input type="text" th:field="*{telefono}" class="form-control" id="telefono" required="required">
+        </div>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="email">Email:</label>
+        <div class="col-md-6">
+          <input type="text" th:field="*{email}" class="form-control" id="email" required="required">
+        </div>
+      </div>
+
+      <div class="form-group col-md-12">
+        <label class="col-md-3" for="catAli">Categoria del Alimento:</label>
+        <div class="col-md-6">
+          <input type="text" th:field="*{categoriaAlimentos}" class="form-control" id="catAli" required="required">
+        </div>
+      </div>
+
+      <!--Crear los Botones para enviar y ejecutar la acción-->
+      <!--Este boton de guardar debe de estar dentro del formulario porque es el que va ajecutar la acción-->
+      <div class="row">
+        <div class="col-md-2">
+          <button class="btn btn-success">Crear Empresa</a></button>
+          <!--No se necesita pober th:ref... porque es el boton del formulario y ya esta implicito-->
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <br>
+
+  <!--Botón regresar atras(otra forma de creer botones empleando javascript ese scprit es para
+  ejecutar la acción de ir atrás)-->
+  <!--Este botón no puede ir dentro del formulario porque lo confundiria y no sabria cual de los dos ejecutar-->
+  <a href="javascript: history.go(-1)" class="btn btn-info" role="button">Atrás</a>
+
+</div>
+</body>
+</html>
