@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -59,8 +60,18 @@ public class EmpresaController {
         return "agregarEmpresa";
         //el redirect se pone si necesito que me lleve a otro servicio, en caso tal solo pongo el tenplate o pag web
 
-
     }
+
+    @GetMapping("/editarEmpresa/{id}")
+    public String editarEmpresa(Model model, @PathVariable Long id){
+        Empresa emp=empresaService.getEmpresaById(id);
+        //Creamos un atributo para el modelo, que se llame igualmente emp y es el que ira al html para llenar o alimentar campos
+        model.addAttribute("emp",emp);
+        return "editarEmpresa";
+    }
+
+
+    //Clase: 11 hora: 1:06
 
 
 }

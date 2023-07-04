@@ -51,8 +51,10 @@
             <td th:text="${empresa.telefono}"></td>
             <td th:text="${empresa.email}"></td>
             <td th:text="${empresa.categoriaAlimentos}"></td>
-            <td><button type="button" class="btn btn-warning"><a th:href="@{/editarEmpresa}">Editar</a></button></td>
-            <td><button type="button" class="btn btn-danger"><a th:href="@{/eliminarEmpresa}">Eliminar</a></button></td>
+
+            <!--En el th:href: va el nombre del servicio que va a consumir esa acción-->
+            <td><button type="button" class="btn btn-warning"><a th:href="@{/editarEmpresa/{id}(id=${empresa.empresaId})}">Editar</a></button></td>
+            <td><button type="button" class="btn btn-danger"><a th:href="@{/eliminarEmpresa/{id}(id=${empresa.empresaId})}">Eliminar</a></button></td>
         </tr>
     </table>
 
