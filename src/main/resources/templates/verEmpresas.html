@@ -4,9 +4,12 @@
     <title>Lista de Empresas</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">  <!-- Importa bootstrap.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> <!-- Importa toastr.css-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- Importa Jquery.js-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> <!-- Importa Boostrap.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script> <!-- Importa toastr.js-->
+
     <style>
         a{
             color:white;
@@ -61,7 +64,47 @@
     <!--Boton para agragar nuevas empresas-->
     <td><button type="button" class="btn btn-info"><a th:href="@{/agregarEmpresa}" >Agregar Nueva Empresa</a></button></td>
 
-
 </div>
+
+<!--voy a generar la validación de los mensajes con JS, y para ello trabajo con el la eti. script-->
+<!--con th: indico que voy a traer un elemento de afuera-->
+<!--Creo una función que me cargue una ventana, creo una variable que se llama msg que me va a traer el objeto mensaje-->
+<!--Como estoy utilizando un estilo de boostrap (toast) para la validación de los mensajes, debo de importar ese estilo-->
+<script th:inline="javascript">
+    window.onload=function(){
+        var msg = [[${mensaje}]];
+        if (msg == "saveOk") {
+            Command: toastr["success"]("Empresa creada con éxito!")
+        }
+        else if (msg == "updateOk"){
+            Command: toastr["success"]("Empresa actualizada con éxito!")
+        }
+        else if (msg == "deleteError"){
+            Command: toastr["danger"]("Empresa no ha sido eliminada!")
+        }
+        else if (msg == "deleteOk"){
+            Command: toastr["error"]("Empresa eliminada con éxito!")
+        }
+            toastr.options = {
+              "closeButton": false,
+              "debug": false,
+              "newestOnTop": false,
+              "progressBar": true,
+              "positionClass": "toast-top-right",
+              "preventDuplicates": false,
+              "onclick": null,
+              "showDuration": "300",
+              "hideDuration": "1000",
+              "timeOut": "5000",
+              "extendedTimeOut": "1000",
+              "showEasing": "swing",
+              "hideEasing": "linear",
+              "showMethod": "fadeIn",
+              "hideMethod": "fadeOut"
+            }
+        }
+
+</script>
+
 </body>
 </html>

@@ -87,18 +87,15 @@ public class EmpresaController {
 
     @GetMapping("/eliminarEmpresa/{id}")  //Es un GetMapping porque consulta y quita pero no lleva nada
     public String eliminarEmpresa(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try{
-            empresaService.deleteEmpresaById(id);
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("mensaje","deleteError");
+        if(empresaService.deleteEmpresaById(id)){
+            redirectAttributes.addFlashAttribute("mensaje","deleteOk");
             return "redirect:/VerEmpresas";
         }
-        redirectAttributes.addFlashAttribute("mensaje","deleteOk");
+        redirectAttributes.addFlashAttribute("mensaje","deleteError");
         return "redirect:/VerEmpresas";
     }
 
 
-    //VOY CLASE 12 MIN 27
 
 }
 
