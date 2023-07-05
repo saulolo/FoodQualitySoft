@@ -62,13 +62,13 @@ public class EmpresaService {
         empresaRepository.deleteById(id);
 
         // Verificamos si la empresa aún existe después de la eliminación
-        if (getEmpresaById(id) != null) {
-            // Si la empresa todavía existe, retornamos 'false' para indicar que la eliminación no fue exitosa
-            return false;
+        if (empresaRepository.findById(id) != null) {
+            // Si la empresa no  existe, retornamos 'true' para indicar que la eliminación fue exitosa
+            return true;
         }
 
-        // Si la empresa ya no existe, retornamos 'true' para indicar que la eliminación fue exitosa
-        return true;
+        // Si la empresa existe, retornamos 'false' para indicar que la eliminación no fue exitosa
+        return false;
     }
 
 

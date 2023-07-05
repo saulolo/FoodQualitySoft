@@ -85,14 +85,6 @@ public class EmpresaController {
         return "redirect:/VerEmpresas";
     }
 
-
-    //OJO: NO FUNCIONA MÉTODO ELIMINAR EMPRESAS, revisar con GPT historial
-
-
-
-
-
-
 }
 
 
