@@ -40,18 +40,11 @@ public class EmpresaService {
 
 
     /* --GUARDAR O ACTUALIZAR EMPRESAS-- */
-    public boolean saveOrUpdateEmpresa(Empresa empresa) {
+    public Empresa saveOrUpdateEmpresa(Empresa empresa) {
         // Guardamos la empresa utilizando el método 'save' del 'empresaRepository'
         Empresa emp = empresaRepository.save(empresa);
+        return emp;
 
-        // Verificamos si la operación de guardado fue exitosa
-        if (emp != null) {
-            // Si se guarda correctamente, retornamos 'true'
-            return true;
-        }
-
-        // Si no se guarda correctamente, retornamos 'false'
-        return false;
     }
 
 
