@@ -18,7 +18,7 @@ public class Producto implements Serializable {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "producto_id")
     private Long productoId;
 
@@ -35,7 +35,7 @@ public class Producto implements Serializable {
     private String descripcion;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "empresa_id", nullable = false)
+    @JoinColumn(name = "empresa_id")
     private Empresa empresa;
 
 

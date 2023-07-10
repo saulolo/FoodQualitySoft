@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -37,6 +38,12 @@ public class EmpresaService {
         return emp;
     }
 
+    /* --VER EMPRESAS POR ID (utilizando Optional)-- */
+    /*public Optional<Empresa> getEmpresaByIdOpt(Long id) {
+        return empresaRepository.findById(id);
+    }*/
+    //el optional es un recurso que se pone en lo métodos para que si no encuentra lo que debe de retornar
+    //el codigo no se reviente, se utiliza por si regresa algo o no regresa nada.
 
 
     /* --GUARDAR O ACTUALIZAR EMPRESAS-- */
@@ -46,7 +53,6 @@ public class EmpresaService {
         return emp;
 
     }
-
 
 
     /* --BORRAR EMPRESAS-- */
@@ -63,6 +69,17 @@ public class EmpresaService {
         // Si la empresa existe, retornamos 'false' para indicar que la eliminación no fue exitosa
         return false;
     }
+
+
+    /* --BORRAR EMPRESAS (utilizando isPresent)-- */
+/*    public boolean deleteEmpresaById(Long id) {
+        empresaRepository.deleteById(id);
+
+        if (empresaRepository.findById(id).isPresent()) { //Utilizando el metodo .isPresent
+            return false;
+        }
+        return true;
+    }*/
 
 
 }
