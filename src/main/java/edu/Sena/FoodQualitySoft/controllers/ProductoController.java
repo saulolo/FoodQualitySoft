@@ -29,6 +29,15 @@ public class ProductoController {
         return productoService.getProductoById(id);
     }
 
+    //Método para ver productos por empresa
+    @GetMapping("/empresas/{empresaId}")
+    public List<Producto> verProductosByEmpresa(@PathVariable Long empresaId) {
+        return productoService.getProductosByEmpresa(empresaId);
+    }
+
+
+
+
 
     @PostMapping
     public Optional<Producto> crearProducto(@RequestBody Producto producto) {
@@ -50,7 +59,9 @@ public class ProductoController {
 
 
 
-    //Voy en 1:03:00
+
+
+
 /*
     //corregir método
     @PatchMapping("/{id}")
@@ -68,14 +79,6 @@ public class ProductoController {
 
 
 
-
-
-
-
-/*    @PostMapping("/enterprises")
-    public Empresa crearEmpresa(@RequestBody Empresa empresa) {
-        return empresaService.saveOrUpdateEmpresa(empresa);
-    }*/
 
 }
 

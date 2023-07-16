@@ -56,6 +56,10 @@ public class EmpresaController {
     }
 */
 
+    /* --CONTROLADOR PARA VER LOS PRODUCTOS POR EMPRESA-- */
+
+
+
 
    /* --CONTROLADOR PARA CREAR UNA EMPRESA-- */
     @PostMapping("/enterprises")
@@ -83,9 +87,6 @@ public class EmpresaController {
         listaEmpresas.add(empresa);
         return empresa;
     }*/
-
-
-
 
 
     /* --CONTROLADOR PARA ACTUALIZAR UNA EMPRESA-- */

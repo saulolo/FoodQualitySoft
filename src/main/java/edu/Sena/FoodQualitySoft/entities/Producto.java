@@ -34,7 +34,7 @@ public class Producto implements Serializable {
     @Column(name = "descripcion", nullable = false, length = 600)
     private String descripcion;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)//No se pone nullable = false,porque lo asume por defecto
     @JoinColumn(name = "empresa_id")
     private Empresa empresa;
 

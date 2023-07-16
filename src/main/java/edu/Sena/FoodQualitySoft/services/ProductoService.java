@@ -33,6 +33,11 @@ public class ProductoService {
         return producto;
     }
 
+    //Metodo para buscar Productos por empresas
+    public List<Producto> getProductosByEmpresa(Long id) {
+        return productoRepository.findByEmpresaEmpresaId(id);
+    }
+
 
 /*    public Producto saveOrUpdateProducto(Producto producto) {
         Producto prod = productoRepository.save(producto);
