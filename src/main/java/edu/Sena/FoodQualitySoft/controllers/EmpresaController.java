@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -103,8 +104,36 @@ public class EmpresaController {
     }
 
 
+
+
+    /* --CONTROLADOR PARA ACTUALIZAR UNA EMPRESA (MÉTODO 2 Utilizando Stream)-- */
+    //Se difiere del Path en que PUT se utiliza para modoficar el objeto completo, con pacth es cambios parciales
+    @PutMapping("/enterprises")
+    public Empresa actualizarEmpresa(@RequestBody Empresa empresa) {
+
+        // Buscar la empresa existente con el mismo ID en la lista de empresas
+        Empresa empresaEncontrada = verEmpresas().stream()
+                .filter(emp -> emp.getEmpresaId().equals(empresa.getEmpresaId())) // Filtrar por ID de empresa
+                .findFirst() // Obtener la primera empresa que cumpla el filtro
+                .orElseThrow(); // Lanzar una excepción si no se encuentra ninguna empresa
+
+        // Actualizar los campos de la empresa encontrada con los nuevos valores proporcionados
+        empresaEncontrada.setNit(empresa.getNit());
+        empresaEncontrada.setNombreEmpresa(empresa.getNombreEmpresa());
+        empresaEncontrada.setDireccion(empresa.getDireccion());
+        empresaEncontrada.setTelefono(empresa.getTelefono());
+        empresaEncontrada.setEmail(empresa.getEmail());
+        empresaEncontrada.setCategoriaAlimentos(empresa.getCategoriaAlimentos());
+
+        // Devolver la empresa actualizada como respuesta de la solicitud
+        return empresaEncontrada;
+    }
+
+
+
+
     /* --CONTROLADOR PARA ELIMINAR EMPRESA POR ID-- */
-    //En caso de que me devuelba un string
+    //En caso de que me devuelva un string
     @DeleteMapping("/enterprises/{id}")
     public String eliminarEmpresa(@PathVariable Long id) {
         boolean respuesta = empresaService.deleteEmpresaById(id);
@@ -124,6 +153,27 @@ public class EmpresaController {
         Empresa emp = empresaService.getEmpresaById(id);
         return  empresaService.deleteEmpresaById(id);
     }*/
+
+
+    /* --CONTROLADOR PARA ELIMINAR EMPRESA POR ID (MÉTODO 3 Usando Stream)-- */
+/*    @DeleteMapping("/enterprises/{id}")
+    public void eliminarEmpresa(@PathVariable Long id) {
+        // Filtrar la lista de empresas para encontrar la que coincide con el ID proporcionado
+        Empresa empresaEncontrada = verEmpresas().stream()
+                .filter(emp -> emp.getEmpresaId().equals(id)) // Filtrar por ID de empresa
+                .findFirst() // Obtener la primera empresa que cumpla el filtro
+                .orElseThrow(); // Lanzar una excepción si no se encuentra ninguna empresa
+
+        // Eliminar la empresa encontrada de la lista de empresas
+        verEmpresas().remove(empresaEncontrada);
+    }*/
+
+
+
+
+
+
+
 
 
 }

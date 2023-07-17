@@ -39,13 +39,9 @@ public class ProductoService {
     }
 
 
-/*    public Producto saveOrUpdateProducto(Producto producto) {
-        Producto prod = productoRepository.save(producto);
-        return prod;
-    }*/
 
     public Producto saveOrUpdateProducto(Producto producto) {
-        producto.setProductoId(null); // Eliminar la asignación manual del ID
+        //producto.setProductoId(null); // Eliminar la asignación manual del ID
         Producto prod = productoRepository.save(producto);
         return prod;
     }

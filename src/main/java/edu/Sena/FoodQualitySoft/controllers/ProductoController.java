@@ -24,10 +24,12 @@ public class ProductoController {
         return productoService.getAllProductos();
     }
 
+
     @GetMapping("/{id}")
     public Producto verProductosById(@PathVariable Long id) {
         return productoService.getProductoById(id);
     }
+
 
     //Método para ver productos por empresa
     @GetMapping("/empresas/{empresaId}")
@@ -37,12 +39,23 @@ public class ProductoController {
 
 
 
-
-
     @PostMapping
     public Optional<Producto> crearProducto(@RequestBody Producto producto) {
         return Optional.ofNullable(productoService.saveOrUpdateProducto(producto));
     }
+
+
+
+    @PatchMapping("/{id}")
+    public Producto actualizarProducto(@PathVariable Long id, @RequestBody Producto producto) {
+        Producto product = productoService.getProductoById(id); //hay veces pide  .get()
+        product.setReferencia(producto.getReferencia());
+        product.setNombreProducto(producto.getNombreProducto());
+        product.setGramaje(producto.getGramaje());
+        product.setDescripcion(producto.getDescripcion());
+        return productoService.saveOrUpdateProducto(product);
+    }
+
 
 
     @DeleteMapping("/{id}")
@@ -62,18 +75,7 @@ public class ProductoController {
 
 
 
-/*
-    //corregir método
-    @PatchMapping("/{id}")
-    public Producto actualizarProducto(@PathVariable Long id, @RequestBody Producto producto) {
-        Producto product = productoService.getProductoById(id);
-        product.setReferencia(producto.getReferencia());
-        product.setNombreProducto(producto.getNombreProducto());
-        product.setGramaje(producto.getGramaje());
-        product.setDescripcion(producto.getDescripcion());
-        return productoService.saveOrUpdateProducto(product);
-    }
-*/
+
 
 
 
