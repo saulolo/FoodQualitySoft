@@ -35,11 +35,16 @@ public class MovimientoService {
     }
 
 
-    /* --VER TODOS LOS MOVIMIENTOS POR EMPLEADO-- */
+    /* --VER TODOS LOS MOVIMIENTOS POR VENDEDOR-- */
     public List<MovimientoDinero> getAllMovimientosByVendedor(Long id) {
         return movimientoRepository.findByVendedorVendedorId(id);
     }
 
+
+    /* --VER TODOS LOS MOVIMIENTOS POR EMPRESA-- */
+    public List<MovimientoDinero> getAllMovimientosByVendedorByEmpresa(Long id) {
+        return movimientoRepository.findByVendedorEmpresaEmpresaId(id);
+    }
 
 
     /* --GUARDAR LOS MOVIMIENTOS -- */
@@ -57,18 +62,6 @@ public class MovimientoService {
         }
         return true;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

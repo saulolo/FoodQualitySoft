@@ -11,12 +11,9 @@ public interface MovimientoRepository extends JpaRepository<MovimientoDinero, Lo
 
     List<MovimientoDinero> findByVendedorVendedorId(Long vendedorId);
 
-    //List<MovimientoDinero> findByEmpresaEmpresaIdAndVendedorVendedorId(Long empresaId, Long vendedorId);
 
-
-    //quede clase 15. min 52:52
-
-
+    //Encontrar movimientos filtrados por vendedor y empresa
+    List<MovimientoDinero> findByVendedorEmpresaEmpresaId(Long empresaId);
 
 
 }

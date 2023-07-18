@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Table(name = "Movimientos")
 public class MovimientoDinero implements Serializable {
 
+
     private static final long serialVersionUID = 5022341805021141326L;
 
 
