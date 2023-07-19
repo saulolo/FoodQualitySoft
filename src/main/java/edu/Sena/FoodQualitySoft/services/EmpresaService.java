@@ -1,9 +1,13 @@
 package edu.Sena.FoodQualitySoft.services;
 
+import edu.Sena.FoodQualitySoft.dto.EmpresaDTO;
+import edu.Sena.FoodQualitySoft.dto.ResponseDTO;
 import edu.Sena.FoodQualitySoft.entities.Empresa;
 import edu.Sena.FoodQualitySoft.repositories.EmpresaRepository;
+import edu.Sena.FoodQualitySoft.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +32,28 @@ public class EmpresaService {
     }
 
 
+    /* --VER TODAS LAS EMPRESAS (Utilizando ResponseDTO)-- */
+    public ResponseDTO getAllEmpresasDTO() {
+        List<Empresa> empresaList = empresaRepository.findAll();
+        List<EmpresaDTO> empresaDTOList = new ArrayList<>();
+
+        for (Empresa empresa : empresaList) {
+            EmpresaDTO empresaDTO = new EmpresaDTO(
+                    empresa.getEmpresaId(),
+                    empresa.getNit(),
+                    empresa.getNombreEmpresa()
+            );
+            empresaDTOList.add(empresaDTO);
+        }
+
+        return new ResponseDTO(HttpStatus.OK, Constants.EMPTY_MESSAGE, empresaDTOList);
+    }
+
+
+
+
+
+
     /* --VER EMPRESAS POR ID-- */
     public Empresa getEmpresaById(Long id) {
         // Buscamos la empresa en el 'empresaRepository' utilizando el método 'findById(id)'
@@ -39,11 +65,12 @@ public class EmpresaService {
     }
 
     /* --VER EMPRESAS POR ID (utilizando Optional)-- */
-    /*public Optional<Empresa> getEmpresaByIdOpt(Long id) {
+    public Optional<Empresa> getEmpresaByIdOpt(Long id) {
         return empresaRepository.findById(id);
-    }*/
+    }
     //el optional es un recurso que se pone en lo métodos para que si no encuentra lo que debe de retornar
     //el codigo no se reviente, se utiliza por si regresa algo o no regresa nada.
+    //En este caso me controla que si no encuestra el id, no se reviente y me muestre un null
 
 
     /* --GUARDAR O ACTUALIZAR EMPRESAS-- */

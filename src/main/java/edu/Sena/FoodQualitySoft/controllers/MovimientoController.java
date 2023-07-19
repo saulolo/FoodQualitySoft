@@ -64,6 +64,17 @@ public class MovimientoController {
     }
 
 
+    /* --ELIMINAR MOVIMIENTOS-- */
+    @DeleteMapping("/{id}")
+    public String deleteMovimiento(@PathVariable Long id) {
+        boolean respuesta = movimientoService.deleteMovimientos(id);
+        if (respuesta) {
+            return "Se elimino correctamente el movimiento con id " + id;
+        }
+        return "No se pudo elimino el movimiento con id " + id;
+    }
+
+
 }
 
 

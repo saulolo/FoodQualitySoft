@@ -1,12 +1,17 @@
 package edu.Sena.FoodQualitySoft.controllers;
 
+import edu.Sena.FoodQualitySoft.dto.EmpresaDTO;
+import edu.Sena.FoodQualitySoft.dto.ResponseDTO;
 import edu.Sena.FoodQualitySoft.entities.Empresa;
 import edu.Sena.FoodQualitySoft.services.EmpresaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,13 +27,64 @@ public class EmpresaController {
     }
 
 
+    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Utilizando ResponseDTO)-- */
+    @GetMapping("/enterprisesResponseDTO")
+    public ResponseEntity<Object> verEmpresasResponseDTO() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(empresaService.getAllEmpresasDTO());
+        } catch (Exception err) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO(HttpStatus.BAD_REQUEST, err.getMessage(), null));
+        }
+    }
+
+
+    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Utilizando ResponseEntity)-- */
+    //ResponseEntity permite construir respuestas HTTP personalizadas en una aplicación web.
+    @GetMapping("/enterprisesResEntity")
+    public ResponseEntity<?> verEmpresasResponseEntity(){  //?(wildcard) permite construir respuestas HTTP personalizadas en una aplicación web.
+        return ResponseEntity.ok(empresaService.getAllEmpresas());
+    }
+
+
     /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS POR ID-- */
     @GetMapping("/enterprises/{id}")
     public Empresa verEmpresaById(@PathVariable Long id) {
         return empresaService.getEmpresaById(id);
     }
 
-    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (MÉTODO 2)-- */
+
+    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS POR ID (Utilizando ResponseEntity)-- */
+    @GetMapping("/enterprisesResEntity/{id}")
+    public ResponseEntity<?> verEmpresasResponseEntityById(@PathVariable Long id) {
+        // Obtener la lista de todas las empresas
+        List<Empresa> empresas = empresaService.getAllEmpresas();
+
+        // Iterar sobre cada empresa en la lista
+        for (Empresa empresa : empresas) {
+            // Comprobar si el id de la empresa coincide con el id proporcionado
+            //en este caso la empresa fue encontrada y por ello retornamos el codigo
+            //200 ok con la empresa en el body de respuesta
+            if (empresa.getEmpresaId().equals(id)) {
+                // Si se encuentra una coincidencia, devolver la empresa como respuesta exitosa
+                return ResponseEntity.ok(empresa);
+            }
+        }
+
+        // Si no se encuentra ninguna empresa con el id proporcionado, devolver respuesta "not found" 404
+        return ResponseEntity.notFound().build();
+    }
+
+
+
+
+    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS POR ID (Utilizando el Optional)-- */
+    @GetMapping("/enterprisesOptional/{id}")
+    public Optional<Empresa> verEmpresaByIdOpt(@PathVariable Long id) {
+        return empresaService.getEmpresaByIdOpt(id);
+    }
+
+
+    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS POR ID (MÉTODO 2)-- */
     //Metodo opcional # 2 para ver empresas por Id usando el ciclo for each
 /*    @GetMapping("/enterprises/{id}")
     public Empresa verEmpresaByIdForEach(@PathVariable Long id) {
@@ -44,7 +100,8 @@ public class EmpresaController {
         return empresaEncontrada;
     }*/
 
-    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (MÉTODO 3)-- */
+
+    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS POR ID (MÉTODO 3)-- */
     //Metodo opcional # 3 para ver empresas por Id usando streams con funciones lamda
     /*
     @GetMapping("/enterprises/{id}")
@@ -56,9 +113,6 @@ public class EmpresaController {
                 .orElse(null);
     }
 */
-
-    /* --CONTROLADOR PARA VER LOS PRODUCTOS POR EMPRESA-- */
-
 
 
 
