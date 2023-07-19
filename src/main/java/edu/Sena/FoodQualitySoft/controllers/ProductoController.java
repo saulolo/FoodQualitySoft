@@ -1,11 +1,11 @@
 package edu.Sena.FoodQualitySoft.controllers;
 
-import edu.Sena.FoodQualitySoft.entities.Empresa;
 import edu.Sena.FoodQualitySoft.entities.Producto;
-import edu.Sena.FoodQualitySoft.services.EmpresaService;
+import edu.Sena.FoodQualitySoft.exceptions.ResourceNotFoundException;
 import edu.Sena.FoodQualitySoft.services.ProductoService;
+import edu.Sena.FoodQualitySoft.utils.Constants;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +26,14 @@ public class ProductoController {
 
 
     @GetMapping("/{id}")
-    public Producto verProductosById(@PathVariable Long id) {
-        return productoService.getProductoById(id);
+    public ResponseEntity<Producto> verProductosById(@PathVariable Long id) {
+        List<Producto> productoList = productoService.getAllProductos();
+
+        return productoList.stream()
+                .filter(pro -> pro.getProductoId().equals(id))
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElseThrow(()-> new ResourceNotFoundException(Constants.PRODUCT + Constants.SPACE_SEPARATOR + id + Constants.SPACE_SEPARATOR + Constants.NOT_FOUND));
     }
 
 

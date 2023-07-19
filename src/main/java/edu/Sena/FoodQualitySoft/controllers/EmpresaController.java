@@ -1,16 +1,16 @@
 package edu.Sena.FoodQualitySoft.controllers;
 
-import edu.Sena.FoodQualitySoft.dto.EmpresaDTO;
 import edu.Sena.FoodQualitySoft.dto.ResponseDTO;
 import edu.Sena.FoodQualitySoft.entities.Empresa;
+import edu.Sena.FoodQualitySoft.exceptions.ResourceNotFoundException;
 import edu.Sena.FoodQualitySoft.services.EmpresaService;
+import edu.Sena.FoodQualitySoft.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -27,6 +27,7 @@ public class EmpresaController {
     }
 
 
+
     /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Utilizando ResponseDTO)-- */
     @GetMapping("/enterprisesResponseDTO")
     public ResponseEntity<Object> verEmpresasResponseDTO() {
@@ -36,6 +37,7 @@ public class EmpresaController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO(HttpStatus.BAD_REQUEST, err.getMessage(), null));
         }
     }
+
 
 
     /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Utilizando ResponseEntity)-- */
@@ -53,26 +55,31 @@ public class EmpresaController {
     }
 
 
-    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS POR ID (Utilizando ResponseEntity)-- */
+    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS POR ID (Utilizando ResponseEntity con manejo de lambdas{Libro})-- */
     @GetMapping("/enterprisesResEntity/{id}")
-    public ResponseEntity<?> verEmpresasResponseEntityById(@PathVariable Long id) {
+    public ResponseEntity<Empresa> verEmpresasResponseEntityById(@PathVariable Long id) {
         // Obtener la lista de todas las empresas
         List<Empresa> empresas = empresaService.getAllEmpresas();
 
-        // Iterar sobre cada empresa en la lista
-        for (Empresa empresa : empresas) {
-            // Comprobar si el id de la empresa coincide con el id proporcionado
-            //en este caso la empresa fue encontrada y por ello retornamos el codigo
-            //200 ok con la empresa en el body de respuesta
-            if (empresa.getEmpresaId().equals(id)) {
-                // Si se encuentra una coincidencia, devolver la empresa como respuesta exitosa
-                return ResponseEntity.ok(empresa);
-            }
-        }
-
-        // Si no se encuentra ninguna empresa con el id proporcionado, devolver respuesta "not found" 404
-        return ResponseEntity.notFound().build();
+        // Iterar sobre cada empresa en la lista utilizando lambdas con el metodo stream
+        //se convierte la lista empresas a tipo stream, para darnos poibilidad de ejecutar algunos métodos útiles
+        return empresas.stream()
+                //en este caso utilizamos filter que es el que necesitamos para realizar un filtrado por ID
+                // Comprobar si el id de la empresa coincide con el id proporcionado
+                .filter(emp -> emp.getEmpresaId().equals(id))
+                //En segundo termino se ejecuta el método findFirst que retornará un opcional de ID
+                //en este caso la empresa fue encontrada y por ello retornamos el codigo
+                .findFirst()
+                //El método map, transformará el Optional<Id> en un Optional<ResponseEntity<Cliente>> y retornará este objeto directamente
+                //200 ok con la empresa en el body de respuesta
+                .map(ResponseEntity::ok)
+                // Si no se encuentra ninguna empresa con el id proporcionado, lanzar una excepción
+                // ResourceNotFoundException que será manejada por spring en algún lugar superior para devolver una respuesta de error (NOT FOUND)
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.COMPANY + Constants.SPACE_SEPARATOR + id + Constants.SPACE_SEPARATOR + Constants.NOT_FOUND));
     }
+
+
+    //VOY AQUI LIBRO: 110
 
 
 

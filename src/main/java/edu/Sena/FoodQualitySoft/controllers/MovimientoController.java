@@ -2,8 +2,11 @@ package edu.Sena.FoodQualitySoft.controllers;
 
 
 import edu.Sena.FoodQualitySoft.entities.MovimientoDinero;
+import edu.Sena.FoodQualitySoft.exceptions.ResourceNotFoundException;
 import edu.Sena.FoodQualitySoft.services.MovimientoService;
+import edu.Sena.FoodQualitySoft.utils.Constants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,9 +29,14 @@ public class MovimientoController {
 
     /* --VER LOS MOVIMIENTOS POR ID-- */
     @GetMapping("/{id}")
-    public MovimientoDinero verMovimientoById (@PathVariable Long id) {
-        MovimientoDinero dinero = movimientoService.getAllMovimientoById(id);
-        return dinero;
+    public ResponseEntity<MovimientoDinero> verMovimientoById (@PathVariable Long id) {
+        List<MovimientoDinero> movimientoDineroList = movimientoService.getAllMovimientos();
+        return movimientoDineroList.stream()
+                .filter(mov -> mov.getMovimientoId().equals(id))
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElseThrow(()-> new ResourceNotFoundException(Constants.MOVING_MONEY + Constants.SPACE_SEPARATOR + id + Constants.SPACE_SEPARATOR + Constants.NOT_FOUND));
+
     }
 
 

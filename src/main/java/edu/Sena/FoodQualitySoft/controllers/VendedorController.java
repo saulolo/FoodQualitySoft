@@ -3,9 +3,12 @@ package edu.Sena.FoodQualitySoft.controllers;
 
 import edu.Sena.FoodQualitySoft.entities.MovimientoDinero;
 import edu.Sena.FoodQualitySoft.entities.Vendedor;
+import edu.Sena.FoodQualitySoft.exceptions.ResourceNotFoundException;
 import edu.Sena.FoodQualitySoft.services.MovimientoService;
 import edu.Sena.FoodQualitySoft.services.VendedorService;
+import edu.Sena.FoodQualitySoft.utils.Constants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,9 +31,13 @@ public class VendedorController {
 
     /* --VER LOS VENDEDORES POR ID-- */
     @GetMapping("/{id}")
-    public Vendedor verVendedorById (@PathVariable Long id) {
-        Vendedor vendedor = vendedorService.getAllVendedorById(id);
-        return vendedor;
+    public ResponseEntity<Vendedor> verVendedorById (@PathVariable Long id) {
+        List<Vendedor> vendedorList = vendedorService.getAllVendedores();
+        return vendedorList.stream()
+                .filter(ven -> ven.getVendedorId().equals(id))
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.SELLER + Constants.SPACE_SEPARATOR.concat(id.toString()).concat(Constants.SPACE_SEPARATOR + Constants.NOT_FOUND)));
     }
 
 
