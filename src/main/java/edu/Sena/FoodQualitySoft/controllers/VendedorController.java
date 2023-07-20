@@ -49,17 +49,27 @@ public class VendedorController {
 
 
 
+
     /* --ELIMINAR VENDEDORES-- */
     @DeleteMapping("/{id}")
-    public String eliminarVendedor(@PathVariable Long id) {
-        boolean respuesta = vendedorService.deleteVendedores(id);
-        if (respuesta) {
-            return "Se elimino el vendedor con id " + id;
-        }
-        else {
-            return "No se pudo eliminar el vendedor con el id " + id;
-        }
+    public ResponseEntity<Vendedor> eliminarVendedor(@PathVariable Long id) {
+
+        List<Vendedor> vendedorList = vendedorService.getAllVendedores();
+
+        Vendedor vendedorEncontrado = vendedorList.stream()
+                .filter(ved -> ved.getVendedorId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.SELLER + Constants.SPACE_SEPARATOR + id + Constants.SPACE_SEPARATOR + Constants.NOT_FOUND));
+
+        vendedorService.deleteVendedorById(id);
+
+        return ResponseEntity.ok(vendedorEncontrado);
+
+
     }
+
+
+
 
 
 

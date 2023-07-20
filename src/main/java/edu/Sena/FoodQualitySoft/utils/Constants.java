@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 public class Constants {
 
     public static final String EMPTY_MESSAGE = "";
-    public static final String NOT_FOUND = "no encontrado";
+    public static final String NOT_FOUND = "no encontrado(a)";
     public static final String COMPANY = "empresa";
     public static final String SPACE_SEPARATOR = " ";
     public static final String MOVING_MONEY = "movimientoDinero";

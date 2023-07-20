@@ -22,13 +22,12 @@ public class EmpresaController {
 
     /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS-- */
     @GetMapping("/enterprises")
-    public List<Empresa> verEmpresas(){
+    public List<Empresa> verEmpresas() {
         return empresaService.getAllEmpresas();
     }
 
 
-
-    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Utilizando ResponseDTO)-- */
+    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Método 2 Utilizando ResponseDTO)-- */
     @GetMapping("/enterprisesResponseDTO")
     public ResponseEntity<Object> verEmpresasResponseDTO() {
         try {
@@ -39,23 +38,22 @@ public class EmpresaController {
     }
 
 
-
-    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Utilizando ResponseEntity)-- */
+    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Método 3 Utilizando ResponseEntity)-- */
     //ResponseEntity permite construir respuestas HTTP personalizadas en una aplicación web.
     @GetMapping("/enterprisesResEntity")
-    public ResponseEntity<?> verEmpresasResponseEntity(){  //?(wildcard) permite construir respuestas HTTP personalizadas en una aplicación web.
+    public ResponseEntity<?> verEmpresasResponseEntity() {  //?(wildcard) permite construir respuestas HTTP personalizadas en una aplicación web.
         return ResponseEntity.ok(empresaService.getAllEmpresas());
     }
 
 
-    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS POR ID-- */
+    /* --CONTROLADOR PARA VER EMPRESAS POR ID-- */
     @GetMapping("/enterprises/{id}")
     public Empresa verEmpresaById(@PathVariable Long id) {
         return empresaService.getEmpresaById(id);
     }
 
 
-    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS POR ID (Utilizando ResponseEntity con manejo de lambdas{Libro})-- */
+    /* --CONTROLADOR PARA VER EMPRESAS POR ID (Método 2 [Profesional] Utilizando ResponseEntity con manejo de lambdas{Libro})-- */
     @GetMapping("/enterprisesResEntity/{id}")
     public ResponseEntity<Empresa> verEmpresasResponseEntityById(@PathVariable Long id) {
         // Obtener la lista de todas las empresas
@@ -79,20 +77,15 @@ public class EmpresaController {
     }
 
 
-    //VOY AQUI LIBRO: 110
-
-
-
-
-    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS POR ID (Utilizando el Optional)-- */
+    /* --CONTROLADOR PARA VER EMPRESAS POR ID (Método 3 Utilizando el Optional)-- */
     @GetMapping("/enterprisesOptional/{id}")
     public Optional<Empresa> verEmpresaByIdOpt(@PathVariable Long id) {
         return empresaService.getEmpresaByIdOpt(id);
     }
 
 
-    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS POR ID (MÉTODO 2)-- */
-    //Metodo opcional # 2 para ver empresas por Id usando el ciclo for each
+    /* --CONTROLADOR PARA VER  EMPRESAS POR ID (MÉTODO 4)-- */
+    //Metodo opcional # 4 para ver empresas por Id usando el ciclo for each
 /*    @GetMapping("/enterprises/{id}")
     public Empresa verEmpresaByIdForEach(@PathVariable Long id) {
         List<Empresa> empresaList = empresaService.getAllEmpresas();
@@ -108,7 +101,7 @@ public class EmpresaController {
     }*/
 
 
-    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS POR ID (MÉTODO 3)-- */
+    /* --CONTROLADOR PARA VER EMPRESAS POR ID (MÉTODO 5)-- */
     //Metodo opcional # 3 para ver empresas por Id usando streams con funciones lamda
     /*
     @GetMapping("/enterprises/{id}")
@@ -122,8 +115,7 @@ public class EmpresaController {
 */
 
 
-
-   /* --CONTROLADOR PARA CREAR UNA EMPRESA-- */
+    /* --CONTROLADOR PARA CREAR UNA EMPRESA-- */
     @PostMapping("/enterprises")
     public Empresa crearEmpresa(@RequestBody Empresa empresa) {
         return empresaService.saveOrUpdateEmpresa(empresa);
@@ -153,7 +145,7 @@ public class EmpresaController {
 
     /* --CONTROLADOR PARA ACTUALIZAR UNA EMPRESA-- */
     @PatchMapping("/enterprises/{id}")
-    public Empresa actualizarEmpresa (@PathVariable Long id, @RequestBody Empresa empresa){
+    public Empresa actualizarEmpresa(@PathVariable Long id, @RequestBody Empresa empresa) {
         Empresa emp = empresaService.getEmpresaById(id);
         emp.setNit(empresa.getNit()); //Si le seteo el Id, me creara una nueva empresa, por eso no lo traigo
         emp.setNombreEmpresa(empresa.getNombreEmpresa());
@@ -163,8 +155,6 @@ public class EmpresaController {
         emp.setCategoriaAlimentos(empresa.getCategoriaAlimentos());
         return empresaService.saveOrUpdateEmpresa(emp);
     }
-
-
 
 
     /* --CONTROLADOR PARA ACTUALIZAR UNA EMPRESA (MÉTODO 2 Utilizando Stream)-- */
@@ -195,7 +185,7 @@ public class EmpresaController {
 
     /* --CONTROLADOR PARA ELIMINAR EMPRESA POR ID-- */
     //En caso de que me devuelva un string
-    @DeleteMapping("/enterprises/{id}")
+/*    @DeleteMapping("/enterprises/{id}")
     public String eliminarEmpresa(@PathVariable Long id) {
         boolean respuesta = empresaService.deleteEmpresaById(id);
         if (respuesta) {
@@ -204,7 +194,7 @@ public class EmpresaController {
         else {
             return "No se pudo eliminar la empresa con el id " + id;
         }
-    }
+    }*/
 
 
     /* --CONTROLADOR PARA ELIMINAR EMPRESA POR ID (MÉTODO 2)-- */
@@ -216,18 +206,32 @@ public class EmpresaController {
     }*/
 
 
-    /* --CONTROLADOR PARA ELIMINAR EMPRESA POR ID (MÉTODO 3 Usando Stream)-- */
-/*    @DeleteMapping("/enterprises/{id}")
-    public void eliminarEmpresa(@PathVariable Long id) {
-        // Filtrar la lista de empresas para encontrar la que coincide con el ID proporcionado
-        Empresa empresaEncontrada = verEmpresas().stream()
-                .filter(emp -> emp.getEmpresaId().equals(id)) // Filtrar por ID de empresa
-                .findFirst() // Obtener la primera empresa que cumpla el filtro
-                .orElseThrow(); // Lanzar una excepción si no se encuentra ninguna empresa
+    /* --CONTROLADOR PARA ELIMINAR EMPRESA POR ID (MÉTODO 3 [Profesional] Usando Stream)-- */
+    @DeleteMapping("/enterprises/{id}")
+    public ResponseEntity<Empresa> eliminarEmpresa(@PathVariable Long id) {
+        List<Empresa> empresaList = empresaService.getAllEmpresas();
 
-        // Eliminar la empresa encontrada de la lista de empresas
-        verEmpresas().remove(empresaEncontrada);
-    }*/
+        // Utilizar Stream y lambdas para buscar la empresa por su ID
+        // y lanzar una excepción si no se encuentra
+        Empresa empresaEncontrada = empresaList.stream()
+                .filter(emp -> emp.getEmpresaId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.COMPANY + Constants.SPACE_SEPARATOR + id + Constants.SPACE_SEPARATOR + Constants.NOT_FOUND));
+
+        // Si se encuentra una empresa con el ID proporcionado,
+        // procedemos a eliminarla utilizando el método deleteEmpresaById
+        empresaService.deleteEmpresaById(id);
+
+        // Devolver una respuesta exitosa con la empresa eliminada
+        return ResponseEntity.ok(empresaEncontrada);
+    }
+
+
+
+
+
+
+
 
 
 

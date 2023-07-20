@@ -55,13 +55,25 @@ public class MovimientoService {
 
 
     /* --ELIMINAR LOS MOVIMIENTOS -- */
-    public boolean deleteMovimientos(Long id) {
+    public boolean deleteMovimientoById(Long id) {
+        movimientoRepository.deleteById(id);
+        if (movimientoRepository.findById(id) !=null) {
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+    /* --ELIMINAR LOS MOVIMIENTOS -- */
+/*    public boolean deleteMovimientoById(Long id) {
         movimientoRepository.deleteById(id);
         if (movimientoRepository.findById(id).isPresent()) {
             return false;
         }
         return true;
-    }
+    }*/
 
 
 

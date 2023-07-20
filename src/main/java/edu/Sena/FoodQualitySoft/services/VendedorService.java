@@ -44,7 +44,7 @@ public class VendedorService {
     }
 
     /* --ELIMINAR LOS MOVIMIENTOS -- */
-    public boolean deleteVendedores(Long id) {
+    public boolean deleteVendedorById(Long id) {
         vendedorRepository.deleteById(id);
         if (vendedorRepository.findById(id).isPresent()) {
             return false;

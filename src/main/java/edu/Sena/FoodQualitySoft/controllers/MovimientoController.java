@@ -74,13 +74,20 @@ public class MovimientoController {
 
     /* --ELIMINAR MOVIMIENTOS-- */
     @DeleteMapping("/{id}")
-    public String deleteMovimiento(@PathVariable Long id) {
-        boolean respuesta = movimientoService.deleteMovimientos(id);
-        if (respuesta) {
-            return "Se elimino correctamente el movimiento con id " + id;
-        }
-        return "No se pudo elimino el movimiento con id " + id;
+    public ResponseEntity<MovimientoDinero> deleteMovimiento(@PathVariable Long id) {
+
+        List<MovimientoDinero> movimientoList = movimientoService.getAllMovimientos();
+
+        MovimientoDinero dineroEncontrado = movimientoList.stream()
+                .filter(mov -> mov.getMovimientoId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.MOVING_MONEY + Constants.SPACE_SEPARATOR + id + Constants.SPACE_SEPARATOR + Constants.NOT_FOUND));
+
+        movimientoService.deleteMovimientoById(id);
+
+        return ResponseEntity.ok(dineroEncontrado);
     }
+
 
 
 }

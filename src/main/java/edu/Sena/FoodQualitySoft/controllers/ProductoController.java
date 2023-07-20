@@ -64,26 +64,22 @@ public class ProductoController {
 
 
 
+
     @DeleteMapping("/{id}")
-    public String eliminarProductos(@PathVariable Long id) {
-        boolean respuesta = productoService.deleteProductoById(id);
-        if (respuesta) {
-            return "Se elimino el producto con id " + id;
-        }
-        else {
-            return "No se pudo eliminar el producto con el id " + id;
-        }
+    public ResponseEntity<Producto> eliminarProducto(@PathVariable Long id) {
+
+        List<Producto> productoList = productoService.getAllProductos();
+
+        Producto productoEncontrado = productoList.stream()
+                .filter(pro -> pro.getProductoId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.PRODUCT + Constants.SPACE_SEPARATOR + id + Constants.SPACE_SEPARATOR + Constants.NOT_FOUND));
+
+        productoService.deleteProductoById(id);
+
+        return ResponseEntity.ok(productoEncontrado);
+
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
