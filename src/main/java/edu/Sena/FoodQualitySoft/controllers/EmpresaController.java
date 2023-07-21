@@ -2,6 +2,7 @@ package edu.Sena.FoodQualitySoft.controllers;
 
 import edu.Sena.FoodQualitySoft.dto.ResponseDTO;
 import edu.Sena.FoodQualitySoft.entities.Empresa;
+import edu.Sena.FoodQualitySoft.exceptions.BadRequestException;
 import edu.Sena.FoodQualitySoft.exceptions.ResourceNotFoundException;
 import edu.Sena.FoodQualitySoft.services.EmpresaService;
 import edu.Sena.FoodQualitySoft.utils.Constants;
@@ -46,6 +47,29 @@ public class EmpresaController {
     }
 
 
+    /* --CONTROLADOR PARA VER EMPRESAS SU NOMBRE-- */
+    //Este método se realizo para poder ver BadRequestException, de como implementar esta excepción en
+    //una clase y como tambiens se puede personalizar con la clase ControllerAdvice
+    @GetMapping("/enterprises/nombre/{nombreEmpresa}")
+    public ResponseEntity<Empresa> verEmpresaByNombre(@PathVariable String nombreEmpresa) {
+
+        if (nombreEmpresa.length() != 5) {
+            throw new BadRequestException("El paramentro nombreEmpresa debe de contener 5 caracteres");
+        }
+
+        List<Empresa> empresas = empresaService.getAllEmpresas();
+
+        return empresas.stream()
+                .filter(emp -> emp.getNombreEmpresa().equalsIgnoreCase(nombreEmpresa))
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.COMPANY + Constants.SPACE_SEPARATOR + nombreEmpresa + Constants.SPACE_SEPARATOR + Constants.NOT_FOUND));
+    }
+
+    //Quede en pag 123
+
+
+
     /* --CONTROLADOR PARA VER EMPRESAS POR ID-- */
     @GetMapping("/enterprises/{id}")
     public Empresa verEmpresaById(@PathVariable Long id) {
@@ -56,6 +80,7 @@ public class EmpresaController {
     /* --CONTROLADOR PARA VER EMPRESAS POR ID (Método 2 [Profesional] Utilizando ResponseEntity con manejo de lambdas{Libro})-- */
     @GetMapping("/enterprisesResEntity/{id}")
     public ResponseEntity<Empresa> verEmpresasResponseEntityById(@PathVariable Long id) {
+
         // Obtener la lista de todas las empresas
         List<Empresa> empresas = empresaService.getAllEmpresas();
 
@@ -75,6 +100,7 @@ public class EmpresaController {
                 // ResourceNotFoundException que será manejada por spring en algún lugar superior para devolver una respuesta de error (NOT FOUND)
                 .orElseThrow(() -> new ResourceNotFoundException(Constants.COMPANY + Constants.SPACE_SEPARATOR + id + Constants.SPACE_SEPARATOR + Constants.NOT_FOUND));
     }
+
 
 
     /* --CONTROLADOR PARA VER EMPRESAS POR ID (Método 3 Utilizando el Optional)-- */

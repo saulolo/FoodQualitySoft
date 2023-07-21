@@ -52,8 +52,6 @@ public class EmpresaService {
 
 
 
-
-
     /* --VER EMPRESAS POR ID-- */
     public Empresa getEmpresaById(Long id) {
         // Buscamos la empresa en el 'empresaRepository' utilizando el método 'findById(id)'
@@ -63,6 +61,11 @@ public class EmpresaService {
         // Retornamos la empresa encontrada
         return emp;
     }
+
+
+
+
+
 
     /* --VER EMPRESAS POR ID (utilizando Optional)-- */
     public Optional<Empresa> getEmpresaByIdOpt(Long id) {

@@ -34,6 +34,9 @@ public class Producto implements Serializable {
     @Column(name = "descripcion", nullable = false, length = 600)
     private String descripcion;
 
+    /*fetch = FetchType.LAZY ==> Si trabajamos con esta propiedad, no nos ocupa tanto espacio en memoria,
+    pero me trae un error de serialización, el cual para ignorarlo debo de poner la siguiente anotación:
+    @JsonProperty(access = Access.WRITE_ONLY)*/
     @ManyToOne(fetch = FetchType.EAGER)//No se pone nullable = false,porque lo asume por defecto
     @JoinColumn(name = "empresa_id")
     private Empresa empresa;
