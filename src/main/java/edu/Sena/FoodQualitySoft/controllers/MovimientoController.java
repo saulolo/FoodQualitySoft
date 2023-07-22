@@ -22,8 +22,9 @@ public class MovimientoController {
 
     /* --VER TODOS LOS MOVIMIENTOS-- */
     @GetMapping
-    public List<MovimientoDinero> verMovimientos() {
-        return movimientoService.getAllMovimientos();
+    public ResponseEntity<List<MovimientoDinero>> verMovimientos() {
+        List<MovimientoDinero> movimientoDineroList = movimientoService.getAllMovimientos();
+        return ResponseEntity.ok(movimientoDineroList);
     }
 
 

@@ -21,7 +21,7 @@ public class EmpresaController {
     private final EmpresaService empresaService;
 
 
-    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS-- */
+    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS-- (Método básico) */
     @GetMapping("/enterprises")
     public List<Empresa> verEmpresas() {
         return empresaService.getAllEmpresas();
@@ -39,12 +39,22 @@ public class EmpresaController {
     }
 
 
-    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Método 3 Utilizando ResponseEntity)-- */
+    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Método 3 [Profesional] Utilizando ResponseEntity)-- */
     //ResponseEntity permite construir respuestas HTTP personalizadas en una aplicación web.
     @GetMapping("/enterprisesResEntity")
+    public ResponseEntity<List<Empresa>> verEmpresasRespoEntity() {
+        List<Empresa> empresaList = empresaService.getAllEmpresas();
+        return ResponseEntity.ok(empresaList);
+    }
+
+    //voy pag 173
+
+
+    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Método 4 Utilizando ResponseEntity con wildcard)-- */
+/*    @GetMapping("/enterprisesResEntity")
     public ResponseEntity<?> verEmpresasResponseEntity() {  //?(wildcard) permite construir respuestas HTTP personalizadas en una aplicación web.
         return ResponseEntity.ok(empresaService.getAllEmpresas());
-    }
+    }*/
 
 
     /* --CONTROLADOR PARA VER EMPRESAS SU NOMBRE-- */
@@ -66,7 +76,6 @@ public class EmpresaController {
                 .orElseThrow(() -> new ResourceNotFoundException(Constants.COMPANY + Constants.SPACE_SEPARATOR + nombreEmpresa + Constants.SPACE_SEPARATOR + Constants.NOT_FOUND));
     }
 
-    //Quede en pag 123
 
 
 

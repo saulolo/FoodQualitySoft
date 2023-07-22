@@ -1,8 +1,6 @@
 package edu.Sena.FoodQualitySoft.services;
 
-import edu.Sena.FoodQualitySoft.entities.Empresa;
 import edu.Sena.FoodQualitySoft.entities.Producto;
-import edu.Sena.FoodQualitySoft.repositories.EmpresaRepository;
 import edu.Sena.FoodQualitySoft.repositories.ProductoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

@@ -24,8 +24,9 @@ public class VendedorController {
 
     /* --VER TODOS LOS VENDEDORES-- */
     @GetMapping
-    public List<Vendedor> verVendedores() {
-        return vendedorService.getAllVendedores();
+    public ResponseEntity<List<Vendedor>> verVendedores() {
+        List<Vendedor> vendedorList = vendedorService.getAllVendedores();
+        return ResponseEntity.ok(vendedorList);
     }
 
 
