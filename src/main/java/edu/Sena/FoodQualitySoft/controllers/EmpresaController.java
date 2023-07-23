@@ -1,5 +1,6 @@
 package edu.Sena.FoodQualitySoft.controllers;
 
+import edu.Sena.FoodQualitySoft.configurations.ConfigurationsParameters;
 import edu.Sena.FoodQualitySoft.dto.ResponseDTO;
 import edu.Sena.FoodQualitySoft.entities.Empresa;
 import edu.Sena.FoodQualitySoft.exceptions.BadRequestException;
@@ -7,10 +8,13 @@ import edu.Sena.FoodQualitySoft.exceptions.ResourceNotFoundException;
 import edu.Sena.FoodQualitySoft.services.EmpresaService;
 import edu.Sena.FoodQualitySoft.utils.Constants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +22,11 @@ import java.util.Optional;
 @RestController
 public class EmpresaController {
 
+
+    @Lazy
     private final EmpresaService empresaService;
+
+    private final ConfigurationsParameters configurationsParameters;
 
 
     /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS-- (Método básico) */
@@ -43,11 +51,14 @@ public class EmpresaController {
     //ResponseEntity permite construir respuestas HTTP personalizadas en una aplicación web.
     @GetMapping("/enterprisesResEntity")
     public ResponseEntity<List<Empresa>> verEmpresasRespoEntity() {
+
+        //Traza para ver las configuraciones cargadas en el aplication.properties
+        System.out.println("params: " + configurationsParameters.toString());
+
         List<Empresa> empresaList = empresaService.getAllEmpresas();
         return ResponseEntity.ok(empresaList);
     }
 
-    //voy pag 173
 
 
     /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Método 4 Utilizando ResponseEntity con wildcard)-- */
@@ -150,6 +161,28 @@ public class EmpresaController {
 */
 
 
+    /* --CONTROLADOR "DUMMY" PARA VER EMPRESAS -- */
+/*  Este método crea una lista de empresas ficticias, generando un endpoint simulando que es una API de
+    un sistema externo para luego consumirlo y asi aprender a usar la clase RestTemplate que es la clase mas
+    utilizada para counsumir servicios externos en Spring Boot*/
+    @GetMapping("/enterprises/fake-empresas")
+    public ResponseEntity<List<Empresa>> fakeEmpresasAPI() {
+        // Crea una lista de objetos Empresa usando el constructor de la clase Empresa
+        List<Empresa> empresaList = new ArrayList<>(Arrays.asList(
+                new Empresa(null, "900321456", "PulpiFruit", "Itagui", "321322456", "pulpi@pul.com", "Pulpas" ),
+                new Empresa(null, "911777456", "Zenú", "Bello", "32232222", "zenu@nutresa.com", "Cárnicos" ),
+                new Empresa(null, "911777456", "Noel", "Medellin", "3114560921", "noel@nutresa.com", "Panaderia" )
+                )
+        );
+        // Retorna una respuesta HTTP 200 OK con la lista de empresas en el cuerpo de la respuesta
+        return ResponseEntity.ok(empresaList);
+    }
+    /*Nota: Reiterando lo explicado anteriormente, y con fines prácticos y pedagógicos, se ha creado una api
+    como si fuera de un servicio externo a este micrservicio pero que en realidad esta definido en el mismo*/
+
+
+
+
     /* --CONTROLADOR PARA CREAR UNA EMPRESA-- */
     @PostMapping("/enterprises")
     public Empresa crearEmpresa(@RequestBody Empresa empresa) {
@@ -158,6 +191,7 @@ public class EmpresaController {
     //Puedo utlizar un post tambien para actualizar y cuando le ponga el id de la empresa en el postman
     //él reconoce que se va a actulizar esa empresa y no ha crearla, pero si quiere decirle especificamente
     // que actualizar, lo hago con un Patch, y le seteo los atributos que quiero actualizar
+
 
 
     /* --CONTROLADOR PARA CREAR UNA EMPRESA (MÉTODO 2)-- */
