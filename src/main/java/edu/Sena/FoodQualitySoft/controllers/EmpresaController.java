@@ -8,6 +8,7 @@ import edu.Sena.FoodQualitySoft.exceptions.ResourceNotFoundException;
 import edu.Sena.FoodQualitySoft.services.EmpresaService;
 import edu.Sena.FoodQualitySoft.utils.Constants;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class EmpresaController {
@@ -53,12 +55,11 @@ public class EmpresaController {
     public ResponseEntity<List<Empresa>> verEmpresasRespoEntity() {
 
         //Traza para ver las configuraciones cargadas en el aplication.properties
-        System.out.println("params: " + configurationsParameters.toString());
+        log.info("params: " + configurationsParameters.toString());
 
         List<Empresa> empresaList = empresaService.getAllEmpresas();
         return ResponseEntity.ok(empresaList);
     }
-
 
 
     /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Método 4 Utilizando ResponseEntity con wildcard)-- */
@@ -66,6 +67,15 @@ public class EmpresaController {
     public ResponseEntity<?> verEmpresasResponseEntity() {  //?(wildcard) permite construir respuestas HTTP personalizadas en una aplicación web.
         return ResponseEntity.ok(empresaService.getAllEmpresas());
     }*/
+
+
+    /* --CONTROLADOR PARA VER TODAS LAS EMPRESAS (Método 5  Utilizando lamdas y stream)-- */
+    @GetMapping("/enterprisesStreamsLambdas")
+    public ResponseEntity<List<Empresa>> verEmpresasStreamsLambdasy() {
+        List<Empresa> empresaList = empresaService.getAllEmpresasStreamLamda();
+        return ResponseEntity.ok(empresaList);
+    }
+
 
 
     /* --CONTROLADOR PARA VER EMPRESAS SU NOMBRE-- */

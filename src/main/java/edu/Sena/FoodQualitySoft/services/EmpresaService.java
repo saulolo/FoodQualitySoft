@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @Log4j2
@@ -49,6 +51,27 @@ public class EmpresaService {
         return new ResponseDTO(HttpStatus.OK, Constants.EMPTY_MESSAGE, empresaDTOList);
     }
 
+    /* --VER TODAS LAS EMPRESAS (Utilizando Stream y Lamdas)-- */
+    //Se usa este método para proporcionar una manera mas elegante de mostrar el código ademas de su legibidad y efeiciencia
+    public List<Empresa> getAllEmpresasStreamLamda () {
+        List<Empresa> empresaList = empresaRepository.findAll().
+                stream().map(empresaEntity -> {
+                    Empresa empresa = new Empresa();
+                    empresa.setEmpresaId(empresaEntity.getEmpresaId());
+                    empresa.setNit(empresaEntity.getNit());
+                    empresa.setNombreEmpresa(empresaEntity.getNombreEmpresa());
+                    empresa.setDireccion(empresaEntity.getDireccion());
+                    empresa.setTelefono(empresaEntity.getTelefono());
+                    empresa.setEmail(empresaEntity.getEmail());
+                    empresa.setCategoriaAlimentos(empresaEntity.getCategoriaAlimentos());
+                    return empresa;
+                }).collect(Collectors.toList());
+
+        return empresaList;
+    }
+
+
+
 
 
 
@@ -61,8 +84,6 @@ public class EmpresaService {
         // Retornamos la empresa encontrada
         return emp;
     }
-
-
 
 
 
@@ -81,8 +102,21 @@ public class EmpresaService {
         // Guardamos la empresa utilizando el método 'save' del 'empresaRepository'
         Empresa emp = empresaRepository.save(empresa);
         return emp;
-
     }
+
+    /* --GUARDAR O ACTUALIZAR EMPRESAS (Método 2 utilizando mapeamiento manual-- */
+/*    public void saveEmpresaUtilizandoEntity(Empresa empresa) {
+        Empresa emp = new Empresa();
+        emp.setEmpresaId(empresa.getEmpresaId());
+        emp.setNit(empresa.getNit());
+        emp.setNombreEmpresa(empresa.getNombreEmpresa());
+        emp.setDireccion(empresa.getDireccion());
+        emp.setDireccion(empresa.getDireccion());
+        emp.setTelefono(empresa.getTelefono());
+        emp.setCategoriaAlimentos(empresa.getCategoriaAlimentos());
+
+        empresaRepository.save(empresa);
+    }*/
 
 
     /* --BORRAR EMPRESAS-- */

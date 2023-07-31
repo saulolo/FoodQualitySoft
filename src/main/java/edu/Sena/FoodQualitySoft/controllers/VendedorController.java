@@ -1,10 +1,8 @@
 package edu.Sena.FoodQualitySoft.controllers;
 
 
-import edu.Sena.FoodQualitySoft.entities.MovimientoDinero;
 import edu.Sena.FoodQualitySoft.entities.Vendedor;
 import edu.Sena.FoodQualitySoft.exceptions.ResourceNotFoundException;
-import edu.Sena.FoodQualitySoft.services.MovimientoService;
 import edu.Sena.FoodQualitySoft.services.VendedorService;
 import edu.Sena.FoodQualitySoft.utils.Constants;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +38,16 @@ public class VendedorController {
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new ResourceNotFoundException(Constants.SELLER + Constants.SPACE_SEPARATOR.concat(id.toString()).concat(Constants.SPACE_SEPARATOR + Constants.NOT_FOUND)));
     }
+
+
+    /* --VER TODOS LOS VENDEDORES POR SU NOMBRE-- */
+    @GetMapping("/nombres")
+    public ResponseEntity<List<Vendedor>> verVendedoresByNombre(@RequestParam String nombre) {
+        List<Vendedor> vendedorList = vendedorService.getAllVendedoresByNombre(nombre);
+        return ResponseEntity.ok(vendedorList);
+    }
+
+
 
 
     /* --CREAR LOS VENDEDORES-- */

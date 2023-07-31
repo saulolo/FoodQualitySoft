@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +44,15 @@ public class ProductoController {
     public List<Producto> verProductosByEmpresa(@PathVariable Long empresaId) {
         return productoService.getProductosByEmpresa(empresaId);
     }
+
+
+    //Controller para buscar Productos por Referencca y gramaje
+    @GetMapping("/referencias/{referencia}/gramajes/{gramaje}")
+    public List<Producto> verAllProductosByReferenciaAndGramaje(@PathVariable int referencia, @PathVariable double gramaje) {
+        return productoService.getAllProductosByReferenciaAndGramaje(referencia, gramaje);
+    }
+
+
 
 
 

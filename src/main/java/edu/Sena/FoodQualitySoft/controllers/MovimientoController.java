@@ -48,6 +48,13 @@ public class MovimientoController {
     }
 
 
+    /* --VER LOS MOVIMIENTOS POR MONTO MENOR A-- */
+    @GetMapping("/monto")
+    public List<MovimientoDinero> verMovimientosByMonto() {
+        return movimientoService.getAllMovimientoByPrecio();
+    }
+
+
     /* --VER LOS MOVIMIENTOS POR VENDEDOR Y POR EMPRESA-- */
     @GetMapping("/vendedores/empresas/{empresaId}")
     public List<MovimientoDinero> verMovimientosByVendedorByEmpresa(@PathVariable Long empresaId) {

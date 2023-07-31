@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -33,6 +34,31 @@ public class MovimientoService {
         MovimientoDinero dinero = movimientoRepository.findById(id).get();
         return dinero;
     }
+
+    /* --VER TODOS LOS MOVIMIENTOS PRECIO MENOR A (Método 1 Utilizando stream)-- */
+    public List<MovimientoDinero> getAllMovimientoByPrecio() {
+        List<MovimientoDinero> dineroList = movimientoRepository.findByMontoLessThan(550000L).
+                stream().map(mov -> {
+                    MovimientoDinero dinero = new MovimientoDinero();
+                    dinero.setMovimientoId(mov.getMovimientoId());
+                    dinero.setMonto(mov.getMonto());
+                    dinero.setConcepto(mov.getConcepto());
+                    dinero.setVendedor(mov.getVendedor());
+                    return dinero;
+                }).collect(Collectors.toList());
+        return dineroList;
+    }
+
+
+    /* --VER TODOS LOS MOVIMIENTOS PRECIO MENOR A (Método 2 Utilizando el repositorio directo)-- */
+/*
+    public List<MovimientoDinero> getAllMovimientoByPrecio() {
+        List<MovimientoDinero> dineroList = movimientoRepository.findByMontoLessThan(550000L);
+        return dineroList;
+    }
+*/
+
+
 
 
     /* --VER TODOS LOS MOVIMIENTOS POR VENDEDOR-- */

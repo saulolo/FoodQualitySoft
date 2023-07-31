@@ -26,6 +26,7 @@ public class ProductoService {
         return productoList;
     }
 
+
     public Producto getProductoById (Long id) {
         Producto producto = productoRepository.findById(id).get();
         return producto;
@@ -35,6 +36,12 @@ public class ProductoService {
     public List<Producto> getProductosByEmpresa(Long id) {
         return productoRepository.findByEmpresaEmpresaId(id);
     }
+
+    //Método para buscar Productos por Referencia y gramaje
+    public List<Producto> getAllProductosByReferenciaAndGramaje(int referencia, double gramaje) {
+        return productoRepository.findByReferenciaLessThanAndGramajeGreaterThan(referencia, gramaje);
+    }
+
 
 
 

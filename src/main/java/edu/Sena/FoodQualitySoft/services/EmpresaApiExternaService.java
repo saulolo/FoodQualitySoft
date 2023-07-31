@@ -4,6 +4,7 @@ package edu.Sena.FoodQualitySoft.services;
 import edu.Sena.FoodQualitySoft.entities.Empresa;
 import edu.Sena.FoodQualitySoft.repositories.EmpresaApiExternaRepository;
 import edu.Sena.FoodQualitySoft.repositories.EmpresaRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
