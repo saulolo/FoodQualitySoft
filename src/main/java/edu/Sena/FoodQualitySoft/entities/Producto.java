@@ -38,8 +38,13 @@ public class Producto implements Serializable {
     pero me trae un error de serialización, el cual para ignorarlo debo de poner la siguiente anotación:
     @JsonProperty(access = Access.WRITE_ONLY)*/
     @ManyToOne(fetch = FetchType.EAGER)//No se pone nullable = false,porque lo asume por defecto
-    @JoinColumn(name = "empresa_id")
+    @JoinColumn(name = "empresa_id", foreignKey = @ForeignKey(name = "FK_ID_EMPRESA"))//foreignKey: para que Hibernate me genere este nombre por defecto
     private Empresa empresa;
+
+    /*Cuando tengamos un atributo de @Onetone y pongamos el parametro a ese atributo de
+    mappedBy = "[nombre de la otra entidad]" quiere decie que la otra entidad es la dueña de la relación:
+    y si le ponemos el parametro CascadeType.ALL esto nos va a permitir hacer el save completo de los objetos
+    que si existe uno en un lado lo va a eliminar y lo va a persistir en caso de que no exista.*/
 
 
 }

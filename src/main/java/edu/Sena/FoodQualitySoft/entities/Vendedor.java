@@ -29,7 +29,7 @@ public class Vendedor implements Serializable {
     @Column(name = "apellido", nullable = false, length = 30)
     private String apellido;
 
-    @Column(name = "documento", nullable = false, length = 20)
+    @Column(name = "documento", nullable = false, length = 20, unique = true)
     private String documento;
 
     @Column(name = "edad", nullable = false)
@@ -48,7 +48,16 @@ public class Vendedor implements Serializable {
     private LocalDateTime fechaIngreso;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "empresa_id")
+    @JoinColumn(name = "empresa_id", foreignKey = @ForeignKey(name = "FK_ID_EMPRESA"))
     private Empresa empresa;
+
+    @OneToOne(mappedBy = "vendedor", cascade = CascadeType.ALL) //mappedBy = "vendedor" quiere decir que la otra entidad (carnet) es la dueña de la relación
+    private Carnet carnet; //Si le ponemos el parametro CascadeType.ALL esto nos va a permitir hacer el save completo de los objetos
+    //que si existe uno en un lado lo va a eliminar y lo va a persistir en caso de que no exista.*/
+
+
+
+
+
 
 }

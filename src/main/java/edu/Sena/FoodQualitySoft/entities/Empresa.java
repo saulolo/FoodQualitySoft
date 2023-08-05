@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
+
 
 import java.io.Serializable;
 
@@ -23,7 +23,7 @@ public class Empresa implements Serializable {
     @Column(name = "empresa_id")
     private Long empresaId;
 
-    @Column(name = "nit", nullable = false, length = 30)
+    @Column(name = "nit", nullable = false, length = 30, unique = true)
     private String Nit;
 
     @Column(name = "nombre_empresa", nullable = false, length = 30)
@@ -35,7 +35,7 @@ public class Empresa implements Serializable {
     @Column(name = "telefono", nullable = false, length = 10)
     private String telefono;
 
-    @Column(name = "email", nullable = false, length = 50)
+    @Column(name = "email", nullable = false, length = 50, unique = true)
     private String email;
 
     @Column(name = "categoria_alimentos", nullable = false, length = 30)

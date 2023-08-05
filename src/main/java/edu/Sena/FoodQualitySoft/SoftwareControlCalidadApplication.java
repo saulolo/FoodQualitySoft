@@ -13,7 +13,7 @@ public class SoftwareControlCalidadApplication {
 	@GetMapping("/holas")
 	public String GetSaludar() {
 		return "Hola mundo...Saldremos vivos de esta...sisisi";
-	};
+	}
 
 
 
