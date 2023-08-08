@@ -24,7 +24,7 @@ public class MovimientoDinero implements Serializable {
     private Long movimientoId;
 
     @Column(name = "monto", nullable = false)
-    private Long monto;
+    private Long monto; //BigDecimal se recomienda para el manejo de monedas con decimales
 
     @Column(name = "concepto", nullable = false, length = 600)
     private String concepto;

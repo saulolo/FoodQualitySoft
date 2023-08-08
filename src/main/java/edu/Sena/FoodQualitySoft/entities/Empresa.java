@@ -13,7 +13,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Table(name = "Empresas")
-public class Empresa implements Serializable {
+public class Empresa implements Serializable { //si agregamos la palabra abstract quiere decir que no podemos
+    // instanciar objetos de la clase Empresa pero si de sus derivados, y sus clases derivadss deben de incluir
+    // en su denominación la palabra extends y la clase heredada no es necesario que la serialicemos
+    //Y para traer los atributos en la otra clase, de la clase heredada (Empresa) lo hago con los constructores
+
 
     private static final long serialVersionUID = 5022341805021141326L;
 
